@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Just for bootstrap -->
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+
+    <!-- Styles of some blocks !-->
+    {% load static %}
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="{% static 'frontend_server/components/custom_brand/custom_brand.css' %}">
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="{% static 'frontend_server/components/custom_footer/custom_footer.css' %}">
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="{% static 'frontend_server/components/custom_header/custom_header.css' %}">
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="{% static 'frontend_server/components/main/main.css' %}">
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="{% static 'frontend_server/components/no_products/no_products.css' %}">
+
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Wannait</title>
+</head>
+<body>
+<nav class="custom-header navbar navbar-dark bg-primary d-flex justify-content-end fixed-top">
+    <span class="navbar-brand h1 custom-brand">Wannait</span>
+    {% if user.is_authenticated %}
+    <span class="navbar-text"> Currently signed in as {{user.username}} </span>
+    <a type='button'
+       class='btn btn-primary'
+       href="{% url 'frontend_server:owned' %}"> My Products </a>
+    <a type='button'
+       class='btn btn-primary'
+       href="{% url 'frontend_server:signout' %}"> Sign out </a>
+    {% else %}
+    <a type='button'
+       class='btn btn-primary'
+       href="{% url 'frontend_server:signin' %}"> Sign In / Sign Up </a>
+    {% endif %}
+</nav>
+
+<nav class="custom-header navbar navbar-dark bg-primary d-flex justify-content-end">
+</nav>
+
+{% if products %}
+<div class="infinite-container d-flex flex-wrap justify-content-center align-content-center my-0">
+    {% for product in products %}
+    <div class="infinite-item card mx-auto my-3" style="width: 18rem;">
+        <a href="{% url 'frontend_server:info' product.id %}" style="margin: auto auto;">
+            {% load static %}
+            <img class="card-img-top"
+                 src="{{product.image_url}}" style="max-width: 17.9rem; max-height: 17.9rem; object-fit: contain; "
+                 onerror="this.onerror=null;this.src='{% static "frontend_server/images/notfound.jpg" %}';"
+                alt="Card image cap"/>
+        </a>
+        <div class="custom-card-body card-body d-flex flex-column">
+            <h5 class="custom-card-title card-title">
+                {{ product.name }}
+            </h5>
+            <div class="custom-card-content">
+                {% if product.based_on != 'none' %}
+                <p class="card-text text-muted" style="text-align: center;">
+                    {{ product.based_on }}
+                </p>
+                {% endif %}
+                {% if user.is_authenticated %}
+                {% if product.like is not None %}
+                <form id="dislike-form" method="post" action="dislike/"
+                      name="dislike-form" class="d-flex justify-content-end">
+                    {% csrf_token %}
+                    <input type="hidden" id="product_id" name="product_id" value="{{product.id}}">
+                    <button id='dislike_button{{product.id}}'
+                            type='submit'
+                            class='btn btn-primary align-self-end product-info__product__logo__like'
+                    > Dislike </button>
+                </form>
+                <form id="like-form" method="post" action="like/"
+                      name="like-form" class="d-flex justify-content-end">
+                    {% csrf_token %}
+                    <input type="hidden" id="product_id" name="product_id"
+                           value="{{product.id}}">
+                    <button id="like_button{{product.id}}"
+                            type='submit'
+                            class='btn btn-primary align-self-end product-info__product__logo__like'
+                            hidden> Like </button>
+                </form>
+                {% else %}
+                <form id="dislike-form" method="post" action="dislike/"
+                      name="dislike-form" class="d-flex justify-content-end">
+                    {% csrf_token %}
+                    <input type="hidden" id="product_id" name="product_id" value="{{product.id}}">
+                    <button id='dislike_button{{product.id}}'
+                            type='submit'
+                            class='btn btn-primary align-self-end product-info__product__logo__like'
+                            hidden> Dislike </button>
+                </form>
+                <form id="like-form" method="post" action="like/"
+                      name="like-form" class="d-flex justify-content-end">
+                    {% csrf_token %}
+                    <input type="hidden" id="product_id" name="product_id" value="{{product.id}}">
+                    <button id="like_button{{product.id}}"
+                            type='submit'
+                            class='btn btn-primary align-self-end product-info__product__logo__like'
+                    > Like </button>
+                </form>
+                {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+
+{% if next_page_exists %}
+<dev class="d-flex justify-content-center flex-grow">
+    <a class="btn bth-primary infinite-more-link" style='text-align: center;'
+       href="?page={{ next_page_number }}"> Loading new products... You can press on me to load the next page only </a>
+</dev>
+{% endif %}
+
+{% else %}
+<h4 class="no-products">
+    Whoops, no products avaliable!
+</h4>
+{% endif %}
+
+<nav class="custom-footer navbar navbar-expand navbar-dark bg-primary">
+</nav>
+<nav class="custom-footer navbar navbar-expand navbar-dark bg-primary fixed-bottom dflex justify-content-center">
+    <a class="navbar-brand" href="http://t.me/WannaitBot">Link to owner</a>
+    {% load static %}
+    <img src="{% static "frontend_server/images/tmdb.svg" %}" style="height:100%;"/>
+</nav>
+
+<!-- Just for bootstrap -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+{% load static %}
+<script src="{% static 'frontend_server/js/jquery.waypoints.min.js' %}"></script>
+{% load static %}
+<script src="{% static 'frontend_server/js/infinite.min.js' %}"></script>
+</body>
+
+<script type="text/javascript">
+    $(document).on('submit', '#like-form',function(e){
+                e.preventDefault(); //prevent default action
+
+                var form = $(this);
+                var value = $(form).find("#product_id").val();
+                var dislike_button = document.getElementById("dislike_button" + value.toString());
+                var like_button = document.getElementById("like_button" + value.toString());
+
+                $.post("./like/",
+                {
+                    product_id: value,
+                    csrfmiddlewaretoken : $('input[name=csrfmiddlewaretoken]').val()
+                },
+                function(data, status){
+                    dislike_button.hidden = false;
+                    like_button.hidden = true;
+                });
+    });
+
+    $(document).on('submit', '#dislike-form',function(e){
+                e.preventDefault(); //prevent default action
+
+                var form = $(this);
+                var value = $(form).find("#product_id").val();
+                var dislike_button = document.getElementById("dislike_button" + value.toString());
+                var like_button = document.getElementById("like_button" + value.toString());
+
+                $.post("./dislike/",
+                {
+                    product_id: value,
+                    csrfmiddlewaretoken : $('input[name=csrfmiddlewaretoken]').val()
+                },
+                function(data, status){
+                    dislike_button.hidden = true;
+                    like_button.hidden = false;
+                });
+    });
+</script>
+
+<script>
+    var infinite = new Waypoint.Infinite({
+        element: $('.infinite-container')[0],
+        handler: function(direction) {
+    },
+    offset: 'bottom-in-view',
+
+    onBeforePageLoad: function () {
+    $('.infinite-more-link').show();
+    },
+    onAfterPageLoad: function () {
+    $('.infinite-more-link').hide();
+    }
+
+    });
+
+</script>
+
+</html>
