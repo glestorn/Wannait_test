@@ -1,0 +1,137 @@
+.product-info {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+
+    flex-direction: column;
+}
+
+.product-info__product {
+    margin: 5%;
+    margin-top: 2%;
+    margin-bottom: 8vh;
+    align-content: center;
+    flex-grow: 1;
+    margin-bottom: 2%;
+    display: flex;
+    flex-direction: row;
+}
+
+.product-info__product__logo {
+    display: flex;
+    margin-left: 15%;
+    flex-direction: column;
+    text-align: center;
+    align-content: center;
+    justify-content: center;
+}
+
+.product-info__product__logo__name {
+    text-align: center;
+    width: 40vh;
+}
+
+.product-info__product__logo__image {
+    max-width: 40vh;
+    max-height: 40vh;
+    object-fit: contain;
+    /*width: 40vh;*/
+    /*height: 40vh;*/
+    align-self: center;
+}
+
+.product-info__product__description {
+    flex-grow: 1;
+    margin: 5%;
+    margin-bottom: 0;
+    justify-content: center;
+    max-width: 50%;
+    word-wrap: break-word;
+}
+
+.product-info__comments {
+    max-width: 80%;
+    margin: 10%;
+    margin-top: 0%;
+    margin-bottom: 5%;
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+}
+
+.product-info__comments__header {
+    margin-left: 0%;
+}
+
+.product-info__comments__comment {
+    display: flex;
+    flex-direction: row;
+    border: 2px solid blue;
+    border-radius: 5px;
+    box-shadow: 2px 2px;
+    margin: 0.5%;
+    background: #EBEDF7;
+}
+
+.product-info__comments__comment__user-name {
+    margin: 1%;
+    text-align: center;
+}
+
+.product-info__comments__comment__text {
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    word-wrap: break-word;
+}
+
+.product-info__comments__new-comment {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
+.product-info__comments__new-comment__text {
+    margin: 0.5%;
+}
+
+.product-info__comments__new-comment__button {
+    margin-right: 1%;
+    display: flex;
+    justify-content: flex-end;
+    align-self: flex-end;
+}
+
+.product-info__comments__no-comments {
+    text-align: center;
+}
+
+.product-info__product__logo__like {
+    margin: 5%;
+    align-self: flex-end;
+    justify-content: flex-end;
+}
+
+.product-info__owner-panel {
+    display: flex;
+    align-self: flex-end;
+    justify-content: flex-end;
+    margin-top: 2%;
+    margin-right: 10%;
+    flex-grow: 1;
+}
+
+.product-info__owner-panel__edit {
+    margin: 0.5%;
+    margin-bottom: 0%;
+}
+
+.product-info__owner-panel__delete {
+    margin: 0.5%;
+    margin-bottom: 0%;
+}
+
