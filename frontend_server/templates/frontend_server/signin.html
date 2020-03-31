@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Just for bootstrap -->
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+
+    <!-- Styles of some blocks !-->
+    {% load static %}
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="{% static 'frontend_server/components/custom_brand/custom_brand.css' %}">
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="{% static 'frontend_server/components/custom_footer/custom_footer.css' %}">
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="{% static 'frontend_server/components/custom_header/custom_header.css' %}">
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="{% static 'frontend_server/components/main/main.css' %}">
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="{% static 'frontend_server/components/sign_form/sign_form.css' %}">
+
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Wannait</title>
+</head>
+<body>
+<nav class="custom-header navbar navbar-dark bg-primary d-flex justify-content-end">
+    <span class="navbar-brand h1 custom-brand">Wannait</span>
+</nav>
+
+<div class="main d-flex justify-content-center align-content-center">
+    {% load crispy_forms_tags %}
+    <div class="sign-form">
+        <div class="sign-form__header">
+            <a class="sign-form__header__choice-active disabled"
+               href="#">Sign In</a>
+            <a class="sign-form__header__choice"
+               href="{% url 'frontend_server:signup' %}">Sign Up</a>
+        </div>
+
+        {%if form_error%}
+            <div class="sign-form__form-row form-error">
+                {{form_error}}
+            </div>
+        {%endif%}
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="sign-form__form-row">
+                {{ form.login|as_crispy_field }}
+            </div>
+            <div class="sign-form__form-row">
+                {{ form.password|as_crispy_field }}
+            </div>
+            <div class="sign-form__buttons">
+                <button type="submit" class="sign-form__buttons__ok btn btn-primary">Ok</button>
+                <a type='button'
+                   class='sign-form__buttons__cancel btn btn-primary'
+                   href="{% url 'frontend_server:index' %}">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<nav class="custom-footer navbar navbar-expand navbar-dark bg-primary fixed-bottom dflex justify-content-center">
+    <a class="navbar-brand" href="http://t.me/WannaitBot">Link to owner</a>
+    {% load static %}
+    <img src="{% static "frontend_server/images/tmdb.svg" %}" style="height:100%;"/>
+</nav>
+
+<!-- Just for bootstrap -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+</html>
+
